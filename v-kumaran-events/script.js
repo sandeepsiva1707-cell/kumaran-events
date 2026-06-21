@@ -188,7 +188,9 @@ document.addEventListener('DOMContentLoaded', () => {
       let visibleIndex = 0;
       galleryGridItems.forEach(item => {
         const categories = item.getAttribute('data-category');
-        const matches = filterValue === 'all' || categories.includes(filterValue);
+        const matchesCategory = filterValue === 'all' || categories.includes(filterValue);
+        const matchesLimit = filterValue !== 'all' || visibleIndex < 9;
+        const matches = matchesCategory && matchesLimit;
         
         if (matches) {
           item.style.display = 'block';
@@ -212,9 +214,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // Initialize data-visible-index on all elements initially
+  // Initialize data-visible-index and visibility of elements initially (default to 'all' showing max 9 items)
+  let initialVisibleIndex = 0;
   galleryGridItems.forEach((item, idx) => {
-    item.setAttribute('data-visible-index', idx.toString());
+    if (idx < 9) {
+      item.setAttribute('data-visible-index', initialVisibleIndex.toString());
+      initialVisibleIndex++;
+    } else {
+      item.style.display = 'none';
+      item.style.opacity = '0';
+      item.style.transform = 'scale(0.8)';
+      item.removeAttribute('data-visible-index');
+    }
   });
 
   // ==========================================================================
@@ -231,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentGalleryIndex = 0;
 
   // Complete data for the 7 portfolio assets
-          const galleryData = [
+            const galleryData = [
     {
       img: 'assets/portfolio-stage-gold.jpg',
       title: 'Royal Traditional Stage',
@@ -248,34 +259,14 @@ document.addEventListener('DOMContentLoaded', () => {
       desc: 'Stunning wedding walkway tunnel decorated with mauve and white curtains, floral panels, and custom LED uplighting.'
     },
     {
-      img: 'assets/portfolio-catering.jpg',
-      title: 'German Canopy Buffet Area',
-      desc: 'German canopy food stalls and buffet catering area arranged on fresh green turf with tables and seating.'
+      img: 'assets/portfolio-hall-decor-white.jpg',
+      title: 'White Floral Hall Decor',
+      desc: 'Stunning stage decoration with a grand white floral arch backdrop, gold seating couch, and fresh flower decorations.'
     },
     {
-      img: 'assets/wedding-stage.png',
-      title: 'Luxury Traditional Mandap',
-      desc: 'Grand stage decoration featuring fresh flower garlands, brass lamps, and premium seating.'
-    },
-    {
-      img: 'assets/arch-walkway.png',
-      title: 'Fairy Lights Walkway',
-      desc: 'Dreamy entrance arch pathway lit with golden fairy lights and decorated with marigold garlands.'
-    },
-    {
-      img: 'assets/reception-stage.png',
-      title: 'Pastel Rose Stage Backdrop',
-      desc: 'Contemporary reception backdrop with pink and white roses, spotlights, and luxury seating.'
-    },
-    {
-      img: 'assets/chennai-wedding-mandap.png',
-      title: 'Chennai Traditional Mandap',
-      desc: 'Classic Chennai-style wedding mandap adorned with fresh jasmine strings, orange marigolds, banana leaf decor, and traditional brass lamps.'
-    },
-    {
-      img: 'assets/chennai-reception-decor.png',
-      title: 'Chennai Luxury Reception',
-      desc: 'Stunning Chennai reception backdrop featuring royal silk drapes, rich floral borders of white roses, and elegant lighting.'
+      img: 'assets/portfolio-hall-decor-gold.jpg',
+      title: 'Golden Theme Hall Decor',
+      desc: 'Luxury wedding hall setup with golden arches, rich traditional lighting, and an elegant maharaja sofa.'
     },
     {
       img: 'assets/portfolio-selfiebooth.png',
@@ -356,6 +347,56 @@ document.addEventListener('DOMContentLoaded', () => {
       img: 'assets/portfolio-birthday-raha.jpg',
       title: 'Raha 1st Birthday Backdrop',
       desc: 'Premium kids birthday theme decor with blue, white, and gold balloon clusters, a circular stage board, and custom neon lights.'
+    },
+    {
+      img: 'assets/portfolio-walkway-pink-arches.png',
+      title: 'Pink Illuminated Walkway',
+      desc: 'Stunning walkway entrance setup with pink and purple illumination, white floral window panels, and ceiling drapes.'
+    },
+    {
+      img: 'assets/portfolio-entrance-banana-leaf.jpg',
+      title: 'Traditional Banana Leaf Entrance',
+      desc: 'Classic South Indian wedding entrance decorated with banana leaves, fresh marigold garlands, and ornamental leaf star designs.'
+    },
+    {
+      img: 'assets/portfolio-entrance-gold-banana.jpg',
+      title: 'Golden Traditional Entrance',
+      desc: 'Elegant golden entrance arch featuring traditional flower decorations, hanging banana bunches, and fresh marigold borders.'
+    },
+    {
+      img: 'assets/portfolio-entrance-royal-gold.png',
+      title: 'Royal Golden Entrance Arch',
+      desc: 'Grand event entrance gate featuring royal golden carvings, matching side panels, and beautiful red flower accents.'
+    },
+    {
+      img: 'assets/portfolio-walkway-traditional-ganesha.jpg',
+      title: 'Traditional Ganesha Walkway',
+      desc: 'Elegant wedding entrance pathway featuring red and yellow fabric drapes, hanging brass bells, and a golden Ganesha idol.'
+    },
+    {
+      img: 'assets/portfolio-welcome-white-arch.jpg',
+      title: 'White Arch Entrance Passage',
+      desc: 'Magnificent welcome walkway featuring a series of white floral arches, red carpet, and pink flower borders.'
+    },
+    {
+      img: 'assets/portfolio-welcome-banners.jpg',
+      title: 'Welcome Banners Walkway',
+      desc: 'Stunning outdoor welcome entrance pathway decorated with bright red curtains, custom welcome banners, and floral arches.'
+    },
+    {
+      img: 'assets/portfolio-welcome-bells-path.jpg',
+      title: 'Traditional Ganesha & Bells Entrance',
+      desc: 'Stately welcome walkway decorated with golden lighting strings, traditional hanging bells, and a central Ganesha statue.'
+    },
+    {
+      img: 'assets/portfolio-aarthi-plate-1.png',
+      title: 'Elegant Floral Aarthi Plate',
+      desc: 'Premium decorated wedding Aarthi plate (thali) with beautiful rose and jasmine petals, and burning oil lamps.'
+    },
+    {
+      img: 'assets/portfolio-aarthi-plate-2.png',
+      title: 'Royal Traditional Aarthi Plate',
+      desc: 'Exquisite gold-plated Aarthi plate styled with traditional sandalwood, kumkum, fresh flowers, and brass lamps.'
     }
   ];
 
@@ -377,28 +418,46 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   function showNextImage() {
-    // Navigate only through currently filtered items if filter is active
-    const activeFilterBtn = document.querySelector('.filter-btn.active');
-    const filterVal = activeFilterBtn ? activeFilterBtn.getAttribute('data-filter') : 'all';
+    // Find all currently visible items in the DOM (those with data-visible-index)
+    const visibleItems = Array.from(galleryGridItems)
+      .filter(item => item.hasAttribute('data-visible-index'))
+      .sort((a, b) => parseInt(a.getAttribute('data-visible-index'), 10) - parseInt(b.getAttribute('data-visible-index'), 10));
     
-    let nextIndex = currentGalleryIndex;
-    do {
-      nextIndex = (nextIndex + 1) % galleryData.length;
-    } while (filterVal !== 'all' && !galleryGridItems[nextIndex].getAttribute('data-category').includes(filterVal));
-
-    openLightbox(nextIndex);
+    if (visibleItems.length === 0) return;
+    
+    // Find the current item's index in the visibleItems array
+    const currentItem = galleryGridItems[currentGalleryIndex];
+    let visiblePos = visibleItems.indexOf(currentItem);
+    
+    if (visiblePos === -1) {
+      visiblePos = 0;
+    } else {
+      visiblePos = (visiblePos + 1) % visibleItems.length;
+    }
+    
+    const nextItemIndex = parseInt(visibleItems[visiblePos].getAttribute('data-index'), 10);
+    openLightbox(nextItemIndex);
   }
 
   function showPrevImage() {
-    const activeFilterBtn = document.querySelector('.filter-btn.active');
-    const filterVal = activeFilterBtn ? activeFilterBtn.getAttribute('data-filter') : 'all';
+    // Find all currently visible items in the DOM (those with data-visible-index)
+    const visibleItems = Array.from(galleryGridItems)
+      .filter(item => item.hasAttribute('data-visible-index'))
+      .sort((a, b) => parseInt(a.getAttribute('data-visible-index'), 10) - parseInt(b.getAttribute('data-visible-index'), 10));
     
-    let prevIndex = currentGalleryIndex;
-    do {
-      prevIndex = (prevIndex - 1 + galleryData.length) % galleryData.length;
-    } while (filterVal !== 'all' && !galleryGridItems[prevIndex].getAttribute('data-category').includes(filterVal));
-
-    openLightbox(prevIndex);
+    if (visibleItems.length === 0) return;
+    
+    const currentItem = galleryGridItems[currentGalleryIndex];
+    let visiblePos = visibleItems.indexOf(currentItem);
+    
+    if (visiblePos === -1) {
+      visiblePos = visibleItems.length - 1;
+    } else {
+      visiblePos = (visiblePos - 1 + visibleItems.length) % visibleItems.length;
+    }
+    
+    const prevItemIndex = parseInt(visibleItems[visiblePos].getAttribute('data-index'), 10);
+    openLightbox(prevItemIndex);
   }
 
   galleryGridItems.forEach(item => {
@@ -580,6 +639,51 @@ _Inquiry compiled & validated securely._`;
     
     // Auto scroll to message
     statusMsg.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  // ==========================================================================
+  // 7. Scroll Animation Observer (Fade-up)
+  // ==========================================================================
+  const fadeUpElements = document.querySelectorAll('.gallery-item, .service-card, .timeline-item, .counter-card');
+  const scrollObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('fade-up-visible');
+        scrollObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  
+  fadeUpElements.forEach(el => {
+    el.classList.add('fade-up-init');
+    scrollObserver.observe(el);
+  });
+
+  // ==========================================================================
+  // 8. Mobile Swipe Support for Lightbox
+  // ==========================================================================
+  let touchStartX = 0;
+  let touchEndX = 0;
+  const lightboxContent = document.querySelector('.lightbox-content');
+  
+  if (lightboxContent) {
+    lightboxContent.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    
+    lightboxContent.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipeGesture();
+    }, { passive: true });
+  }
+  
+  function handleSwipeGesture() {
+    const swipeThreshold = 50;
+    if (touchStartX - touchEndX > swipeThreshold) {
+      showNextImage();
+    } else if (touchEndX - touchStartX > swipeThreshold) {
+      showPrevImage();
+    }
   }
 
 });
