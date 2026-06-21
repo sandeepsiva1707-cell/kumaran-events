@@ -218,7 +218,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ==========================================================================
-  // 5. Portfolio Gallery & Lightbox Carousel (7 items)
+  // 5. Portfolio Gallery & Lightbox Carousel (25 items)
   // ==========================================================================
   const lightbox = document.getElementById('lightbox-modal');
   const lightboxImg = document.getElementById('lightbox-modal-img');
@@ -231,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentGalleryIndex = 0;
 
   // Complete data for the 7 portfolio assets
-  const galleryData = [
+          const galleryData = [
     {
       img: 'assets/portfolio-stage-gold.jpg',
       title: 'Royal Traditional Stage',
@@ -276,6 +276,86 @@ document.addEventListener('DOMContentLoaded', () => {
       img: 'assets/chennai-reception-decor.png',
       title: 'Chennai Luxury Reception',
       desc: 'Stunning Chennai reception backdrop featuring royal silk drapes, rich floral borders of white roses, and elegant lighting.'
+    },
+    {
+      img: 'assets/portfolio-selfiebooth.png',
+      title: 'Welcome Board Easel',
+      desc: 'Traditional wedding welcome easel board decorated with floral garlands, warm fairy lights, and vintage white birdcages.'
+    },
+    {
+      img: 'assets/portfolio-entrance-walkway.png',
+      title: 'Yellow Entrance Walkway',
+      desc: 'Stunning event entrance walkway tunnel featuring yellow fabric draping, warm LED lighting columns, and white window arches.'
+    },
+    {
+      img: 'assets/portfolio-stage-pink.png',
+      title: 'Pink Lotus Backdrop',
+      desc: 'Elegant stage backdrop featuring hand-painted pink lotus flowers, matching pink floral borders, and hanging marigold garlands.'
+    },
+    {
+      img: 'assets/portfolio-stage-white.jpg',
+      title: 'White Stage Backdrop',
+      desc: 'Premium modern stage setup featuring geometric panels, fresh floral arches, and wedding couches.'
+    },
+    {
+      img: 'assets/portfolio-welcome-girls-1.jpg',
+      title: 'Event Coordinator Team',
+      desc: 'Professional event coordination girls and hostesses in smart uniforms, equipped for guest reception and coordination details.'
+    },
+    {
+      img: 'assets/portfolio-welcome-girls-2.jpg',
+      title: 'Traditional Hostesses',
+      desc: 'Welcome girls in beautiful blue and yellow traditional floral saris, standing next to the welcome sign easel.'
+    },
+    {
+      img: 'assets/portfolio-welcome-girls-3.jpg',
+      title: 'Royal Event Welcome Team',
+      desc: 'Traditional welcome girls in coordinating beige and purple border saris, presenting at the guest reception area.'
+    },
+    {
+      img: 'assets/portfolio-bouncers-1.jpg',
+      title: 'Elite Security Team',
+      desc: 'Professional male security bouncers in black uniforms standing in line at the venue entrance.'
+    },
+    {
+      img: 'assets/portfolio-bouncers-2.jpg',
+      title: 'Security Crew',
+      desc: 'Professional male bouncers and crowd management team standing in a marriage hall during an event.'
+    },
+    {
+      img: 'assets/portfolio-garland-couple.png',
+      title: 'Bridal Rose Garland',
+      desc: 'Exquisite red rose wedding garlands accented with gold beads, held during a traditional Indian marriage ceremony.'
+    },
+    {
+      img: 'assets/portfolio-garland-vertical.jpg',
+      title: 'Traditional Jasmine Garland',
+      desc: 'Premium flower garlands handcrafted with fresh red roses, white jasmine buds, and gold ornamental trims.'
+    },
+    {
+      img: 'assets/portfolio-photobooth-neon.jpg',
+      title: 'Neon Backdrop Photobooth',
+      desc: 'Lush green foliage backdrop accented with white roses, hanging leaves, and a customizable neon sign.'
+    },
+    {
+      img: 'assets/portfolio-photobooth-ringlight.jpg',
+      title: 'Foliage Wall Photobooth',
+      desc: 'Interactive photo booth corner complete with a green floral wall backdrop, ring light setup, and guest area.'
+    },
+    {
+      img: 'assets/portfolio-birthday-arch.jpg',
+      title: 'Circular Balloon Backdrop',
+      desc: 'Beautiful round backdrop with blue, pink, and gold balloon decorations and a Happy Birthday neon light.'
+    },
+    {
+      img: 'assets/portfolio-birthday-cocomelon.jpg',
+      title: 'Cocomelon Theme Backdrop',
+      desc: 'Lively kids birthday party backdrop featuring Cocomelon character designs, balloon arches, and Yazhisai letter light boards.'
+    },
+    {
+      img: 'assets/portfolio-birthday-raha.jpg',
+      title: 'Raha 1st Birthday Backdrop',
+      desc: 'Premium kids birthday theme decor with blue, white, and gold balloon clusters, a circular stage board, and custom neon lights.'
     }
   ];
 
