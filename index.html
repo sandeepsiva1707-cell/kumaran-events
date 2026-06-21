@@ -70,8 +70,8 @@
         <ul class="nav-menu" id="header-nav-menu">
           <li class="nav-item active"><a href="#top-body" id="nav-lnk-home">Home</a></li>
           <li class="nav-item"><a href="#about" id="nav-lnk-about">About</a></li>
-          <li class="nav-item"><a href="#services" id="nav-lnk-services">Services</a></li>
           <li class="nav-item"><a href="#gallery" id="nav-lnk-gallery">Portfolio</a></li>
+          <li class="nav-item"><a href="#services" id="nav-lnk-services">Services</a></li>
           <li class="nav-item"><a href="#contact" id="nav-lnk-contact">Contact</a></li>
         </ul>
       </nav>
@@ -203,6 +203,145 @@
         </div>
       </div>
     </section>
+
+    <!-- ==========================================================================
+         Portfolio Section (Masonry-style Filtered Grid)
+         ========================================================================== -->
+    <section class="gallery-section" id="gallery">
+      <div class="container">
+        <div class="section-title">
+          <h2>Our Portfolio</h2>
+          <p>A showcase of some of our proudest setups and layouts</p>
+        </div>
+
+        <!-- Portfolio Category Filters -->
+        <div class="gallery-filters" id="gal-filters">
+          <button class="filter-btn active" data-filter="all">All Portfolio</button>
+          <button class="filter-btn" data-filter="wedding">Wedding</button>
+          <button class="filter-btn" data-filter="reception">Reception</button>
+          <button class="filter-btn" data-filter="birthday">Birthday</button>
+          <button class="filter-btn" data-filter="college">College Fest</button>
+          <button class="filter-btn" data-filter="decorations">Decorations</button>
+        </div>
+
+        <div class="gallery-grid" id="gal-grid">
+          
+          <!-- Gallery Item 1 (Actual photo: gold traditional stage) -->
+          <div class="gallery-item" data-index="0" data-category="wedding decorations">
+            <img class="gallery-img" src="assets/portfolio-stage-gold.jpg" alt="Traditional South Indian Wedding Stage Setup with Golden Pillars">
+            <div class="gallery-overlay">
+              <div class="gallery-info">
+                <h4>Royal Traditional Stage</h4>
+                <p>Wedding / Stage Decorations</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gallery Item 2 (Actual photo: stage arches) -->
+          <div class="gallery-item" data-index="1" data-category="reception decorations">
+            <img class="gallery-img" src="assets/portfolio-stage-arches.jpg" alt="Pastel floral backdrop with gold carved arches and couch">
+            <div class="gallery-overlay">
+              <div class="gallery-info">
+                <h4>Pastel Arches Stage</h4>
+                <p>Reception / Stage Decorations</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gallery Item 3 (Actual photo: entry walkway drapes) -->
+          <div class="gallery-item" data-index="2" data-category="wedding bride-groom">
+            <img class="gallery-img" src="assets/portfolio-walkway-mauve.png" alt="Stunning walkway tunnel with pink and white drapes and gold frames">
+            <div class="gallery-overlay">
+              <div class="gallery-info">
+                <h4>Mauve Entrance Walkway</h4>
+                <p>Bride & Groom Entry</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gallery Item 4 (Actual photo: catering buffet turf) -->
+          <div class="gallery-item" data-index="3" data-category="decorations birthday college">
+            <img class="gallery-img" src="assets/portfolio-catering.jpg" alt="Outdoor grass turf buffet catering counters with yellow canopies">
+            <div class="gallery-overlay">
+              <div class="gallery-info">
+                <h4>German Canopy Buffet Area</h4>
+                <p>Catering & Rentals</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gallery Item 5 (Generated: wedding stage) -->
+          <div class="gallery-item" data-index="4" data-category="wedding decorations">
+            <img class="gallery-img" src="assets/wedding-stage.png" alt="Premium traditional wedding setup with marigolds and white jasmines">
+            <div class="gallery-overlay">
+              <div class="gallery-info">
+                <h4>Mandap floral decoration</h4>
+                <p>Wedding / Stage Decorations</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gallery Item 6 (Generated: arch entry walkway) -->
+          <div class="gallery-item" data-index="5" data-category="wedding bride-groom">
+            <img class="gallery-img" src="assets/arch-walkway.png" alt="Wedding entry arch walkway glowing with fairy lights and marigolds">
+            <div class="gallery-overlay">
+              <div class="gallery-info">
+                <h4>Fairy Lights Walkway</h4>
+                <p>Bride & Groom Entry</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gallery Item 7 (Generated: reception rose stage) -->
+          <div class="gallery-item" data-index="6" data-category="reception decorations">
+            <img class="gallery-img" src="assets/reception-stage.png" alt="Contemporary stage backdrop with soft white and pink roses and luxury couch">
+            <div class="gallery-overlay">
+              <div class="gallery-info">
+                <h4>Pastel Rose Backdrop</h4>
+                <p>Reception Stage</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gallery Item 8 (New: Chennai Traditional Mandap) -->
+          <div class="gallery-item" data-index="7" data-category="wedding decorations">
+            <img class="gallery-img" src="assets/chennai-wedding-mandap.png" alt="Chennai traditional wedding mandap decorated with jasmines and marigolds">
+            <div class="gallery-overlay">
+              <div class="gallery-info">
+                <h4>Chennai Traditional Mandap</h4>
+                <p>Wedding / Stage Decorations</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Gallery Item 9 (New: Chennai Luxury Reception) -->
+          <div class="gallery-item" data-index="8" data-category="reception decorations">
+            <img class="gallery-img" src="assets/chennai-reception-decor.png" alt="Chennai luxury reception backdrop stage featuring drapes and rose borders">
+            <div class="gallery-overlay">
+              <div class="gallery-info">
+                <h4>Chennai Luxury Reception</h4>
+                <p>Reception Stage</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery Lightbox Modal -->
+    <div class="lightbox" id="lightbox-modal" role="dialog" aria-modal="true" aria-label="Image gallery lightbox">
+      <button class="lightbox-close" id="lightbox-close-btn" aria-label="Close details dialog">&times;</button>
+      <button class="lightbox-arrow lightbox-prev" id="lightbox-prev-btn" aria-label="Previous image">&#10094;</button>
+      <div class="lightbox-content">
+        <img class="lightbox-img" id="lightbox-modal-img" src="" alt="">
+        <div class="lightbox-caption">
+          <h4 id="lightbox-modal-title"></h4>
+          <p id="lightbox-modal-desc"></p>
+        </div>
+      </div>
+      <button class="lightbox-arrow lightbox-next" id="lightbox-next-btn" aria-label="Next image">&#10095;</button>
+    </div>
 
     <!-- ==========================================================================
          Services Section
@@ -456,144 +595,7 @@
       </div>
     </section>
 
-    <!-- ==========================================================================
-         Portfolio Section (Masonry-style Filtered Grid)
-         ========================================================================== -->
-    <section class="gallery-section" id="gallery">
-      <div class="container">
-        <div class="section-title">
-          <h2>Our Portfolio</h2>
-          <p>A showcase of some of our proudest setups and layouts</p>
-        </div>
 
-        <!-- Portfolio Category Filters -->
-        <div class="gallery-filters" id="gal-filters">
-          <button class="filter-btn active" data-filter="all">All Portfolio</button>
-          <button class="filter-btn" data-filter="wedding">Wedding</button>
-          <button class="filter-btn" data-filter="reception">Reception</button>
-          <button class="filter-btn" data-filter="birthday">Birthday</button>
-          <button class="filter-btn" data-filter="college">College Fest</button>
-          <button class="filter-btn" data-filter="decorations">Decorations</button>
-        </div>
-
-        <div class="gallery-grid" id="gal-grid">
-          
-          <!-- Gallery Item 1 (Actual photo: gold traditional stage) -->
-          <div class="gallery-item" data-index="0" data-category="wedding decorations">
-            <img class="gallery-img" src="assets/portfolio-stage-gold.jpg" alt="Traditional South Indian Wedding Stage Setup with Golden Pillars">
-            <div class="gallery-overlay">
-              <div class="gallery-info">
-                <h4>Royal Traditional Stage</h4>
-                <p>Wedding / Stage Decorations</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Gallery Item 2 (Actual photo: stage arches) -->
-          <div class="gallery-item" data-index="1" data-category="reception decorations">
-            <img class="gallery-img" src="assets/portfolio-stage-arches.jpg" alt="Pastel floral backdrop with gold carved arches and couch">
-            <div class="gallery-overlay">
-              <div class="gallery-info">
-                <h4>Pastel Arches Stage</h4>
-                <p>Reception / Stage Decorations</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Gallery Item 3 (Actual photo: entry walkway drapes) -->
-          <div class="gallery-item" data-index="2" data-category="wedding bride-groom">
-            <img class="gallery-img" src="assets/portfolio-walkway-mauve.png" alt="Stunning walkway tunnel with pink and white drapes and gold frames">
-            <div class="gallery-overlay">
-              <div class="gallery-info">
-                <h4>Mauve Entrance Walkway</h4>
-                <p>Bride & Groom Entry</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Gallery Item 4 (Actual photo: catering buffet turf) -->
-          <div class="gallery-item" data-index="3" data-category="decorations birthday college">
-            <img class="gallery-img" src="assets/portfolio-catering.jpg" alt="Outdoor grass turf buffet catering counters with yellow canopies">
-            <div class="gallery-overlay">
-              <div class="gallery-info">
-                <h4>German Canopy Buffet Area</h4>
-                <p>Catering & Rentals</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Gallery Item 5 (Generated: wedding stage) -->
-          <div class="gallery-item" data-index="4" data-category="wedding decorations">
-            <img class="gallery-img" src="assets/wedding-stage.png" alt="Premium traditional wedding setup with marigolds and white jasmines">
-            <div class="gallery-overlay">
-              <div class="gallery-info">
-                <h4>Mandap floral decoration</h4>
-                <p>Wedding / Stage Decorations</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Gallery Item 6 (Generated: arch entry walkway) -->
-          <div class="gallery-item" data-index="5" data-category="wedding bride-groom">
-            <img class="gallery-img" src="assets/arch-walkway.png" alt="Wedding entry arch walkway glowing with fairy lights and marigolds">
-            <div class="gallery-overlay">
-              <div class="gallery-info">
-                <h4>Fairy Lights Walkway</h4>
-                <p>Bride & Groom Entry</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Gallery Item 7 (Generated: reception rose stage) -->
-          <div class="gallery-item" data-index="6" data-category="reception decorations">
-            <img class="gallery-img" src="assets/reception-stage.png" alt="Contemporary stage backdrop with soft white and pink roses and luxury couch">
-            <div class="gallery-overlay">
-              <div class="gallery-info">
-                <h4>Pastel Rose Backdrop</h4>
-                <p>Reception Stage</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Gallery Item 8 (New: Chennai Traditional Mandap) -->
-          <div class="gallery-item" data-index="7" data-category="wedding decorations">
-            <img class="gallery-img" src="assets/chennai-wedding-mandap.png" alt="Chennai traditional wedding mandap decorated with jasmines and marigolds">
-            <div class="gallery-overlay">
-              <div class="gallery-info">
-                <h4>Chennai Traditional Mandap</h4>
-                <p>Wedding / Stage Decorations</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Gallery Item 9 (New: Chennai Luxury Reception) -->
-          <div class="gallery-item" data-index="8" data-category="reception decorations">
-            <img class="gallery-img" src="assets/chennai-reception-decor.png" alt="Chennai luxury reception backdrop stage featuring drapes and rose borders">
-            <div class="gallery-overlay">
-              <div class="gallery-info">
-                <h4>Chennai Luxury Reception</h4>
-                <p>Reception Stage</p>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- Gallery Lightbox Modal -->
-    <div class="lightbox" id="lightbox-modal" role="dialog" aria-modal="true" aria-label="Image gallery lightbox">
-      <button class="lightbox-close" id="lightbox-close-btn" aria-label="Close details dialog">&times;</button>
-      <button class="lightbox-arrow lightbox-prev" id="lightbox-prev-btn" aria-label="Previous image">&#10094;</button>
-      <div class="lightbox-content">
-        <img class="lightbox-img" id="lightbox-modal-img" src="" alt="">
-        <div class="lightbox-caption">
-          <h4 id="lightbox-modal-title"></h4>
-          <p id="lightbox-modal-desc"></p>
-        </div>
-      </div>
-      <button class="lightbox-arrow lightbox-next" id="lightbox-next-btn" aria-label="Next image">&#10095;</button>
-    </div>
 
     <!-- ==========================================================================
          Testimonials Section
