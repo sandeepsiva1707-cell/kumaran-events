@@ -620,6 +620,14 @@ button, input, select, textarea {
   animation: fadeInDown 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.gold-symbol {
+  color: var(--primary-gold);
+  margin: 0 8px;
+  font-size: 1rem;
+  display: inline-block;
+  vertical-align: middle;
+}
+
 .hero-subtitle {
   font-family: var(--font-sans);
   text-transform: uppercase;
