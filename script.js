@@ -266,6 +266,16 @@ document.addEventListener('DOMContentLoaded', () => {
       img: 'assets/reception-stage.png',
       title: 'Pastel Rose Stage Backdrop',
       desc: 'Contemporary reception backdrop with pink and white roses, spotlights, and luxury seating.'
+    },
+    {
+      img: 'assets/chennai-wedding-mandap.png',
+      title: 'Chennai Traditional Mandap',
+      desc: 'Classic Chennai-style wedding mandap adorned with fresh jasmine strings, orange marigolds, banana leaf decor, and traditional brass lamps.'
+    },
+    {
+      img: 'assets/chennai-reception-decor.png',
+      title: 'Chennai Luxury Reception',
+      desc: 'Stunning Chennai reception backdrop featuring royal silk drapes, rich floral borders of white roses, and elegant lighting.'
     }
   ];
 
