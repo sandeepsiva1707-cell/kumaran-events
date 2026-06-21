@@ -292,6 +292,11 @@ button, input, select, textarea {
 .logo-icon {
   width: 48px;
   height: 48px;
+  object-fit: contain;
+  border-radius: 50%;
+  background-color: var(--white);
+  border: 1px solid var(--primary-gold-light);
+  padding: 2px;
 }
 
 .logo-text h1 {
@@ -603,10 +608,16 @@ button, input, select, textarea {
   animation: fadeInDown 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.hero-logo-svg {
-  width: 130px;
+.hero-logo-svg,
+.hero-logo-img {
+  width: 140px;
   height: auto;
-  filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+  border-radius: 50%;
+  border: 2px solid var(--primary-gold);
+  padding: 4px;
+  background-color: rgba(30, 25, 22, 0.85);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5), 0 0 25px rgba(197, 155, 39, 0.3);
+  animation: fadeInDown 1.2s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .hero-subtitle {
@@ -703,14 +714,16 @@ button, input, select, textarea {
 
 .about-grid {
   display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 4rem;
+  grid-template-columns: 1fr;
+  gap: 3rem;
   align-items: center;
+  text-align: center;
 }
 
 .about-content {
   display: flex;
   flex-direction: column;
+  align-items: center;
 }
 
 .about-highlight {
@@ -733,6 +746,9 @@ button, input, select, textarea {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  max-width: max-content;
+  margin: 0 auto;
+  text-align: left;
 }
 
 .about-highlights-list li {
@@ -754,20 +770,45 @@ button, input, select, textarea {
   position: relative;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
+  gap: 30px;
   align-items: center;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.about-collage .hexagon-wrapper {
+  animation: floatAnimation 4s ease-in-out infinite alternate;
+  transition: var(--transition);
 }
 
 .about-collage .hexagon-wrapper:nth-child(1) {
   grid-column: 1;
+  animation-delay: 0s;
 }
 
 .about-collage .hexagon-wrapper:nth-child(2) {
   grid-column: 2;
+  animation-delay: 1.2s;
 }
 
 .about-collage .hexagon-wrapper:nth-child(3) {
   grid-column: 3;
+  animation-delay: 2.4s;
+}
+
+.about-collage .hexagon-wrapper:hover {
+  transform: translateY(-20px) scale(1.06);
+  z-index: 10;
+  animation-play-state: paused;
+}
+
+@keyframes floatAnimation {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(-15px);
+  }
 }
 
 .collage-img {
