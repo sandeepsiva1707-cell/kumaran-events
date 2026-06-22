@@ -412,6 +412,31 @@ document.addEventListener('DOMContentLoaded', () => {
       img: 'assets/portfolio-car-skoda.png',
       title: 'Elegant Rose & Frame Car Decor',
       desc: 'Black Skoda wedding car decorated with fresh pink roses, green foliage, and a personalized couple frame.'
+    },
+    {
+      img: 'assets/portfolio-stage-jasmine-arches.png',
+      title: 'Traditional Jasmine Stage Arches',
+      desc: 'Elegant wedding stage decoration featuring hanging jasmine flower garlands arranged in beautiful overlapping arches against a warm golden backdrop.'
+    },
+    {
+      img: 'assets/portfolio-stage-golden-mandap.jpg',
+      title: 'Golden Temple Mandap Setup',
+      desc: 'Magnificent gold wedding mandap setup designed like a traditional temple dome, adorned with colorful flower garlands and flanking deities.'
+    },
+    {
+      img: 'assets/portfolio-garland-pink-white.jpg',
+      title: 'Pink & White Rose Garland',
+      desc: 'Beautifully handcrafted wedding garlands featuring alternating layers of fresh pink and white roses with delicate baby\'s breath.'
+    },
+    {
+      img: 'assets/portfolio-garland-white-rose.png',
+      title: 'Elegant White Rose Garland',
+      desc: 'Premium white rose wedding garland woven with baby\'s breath, accompanied by a matching bridal flower bouquet.'
+    },
+    {
+      img: 'assets/portfolio-bouncers-3.jpg',
+      title: 'Professional Security Crew',
+      desc: 'Professional crowd management and security team of four bouncers, stationed at the venue entrance.'
     }
   ];
 
