@@ -389,14 +389,29 @@ document.addEventListener('DOMContentLoaded', () => {
       desc: 'Stately welcome walkway decorated with golden lighting strings, traditional hanging bells, and a central Ganesha statue.'
     },
     {
-      img: 'assets/portfolio-aarthi-plate-1.png',
-      title: 'Elegant Floral Aarthi Plate',
-      desc: 'Premium decorated wedding Aarthi plate (thali) with beautiful rose and jasmine petals, and burning oil lamps.'
+      img: 'assets/portfolio-aarthi-plate-1.jpg',
+      title: 'Traditional Decorated Aarthi Plates & Dolls',
+      desc: 'Exquisite display of hand-decorated Aarthi plates, traditional dolls, and festival items on a green and red table setup.'
     },
     {
-      img: 'assets/portfolio-aarthi-plate-2.png',
-      title: 'Royal Traditional Aarthi Plate',
-      desc: 'Exquisite gold-plated Aarthi plate styled with traditional sandalwood, kumkum, fresh flowers, and brass lamps.'
+      img: 'assets/portfolio-aarthi-plate-2.jpg',
+      title: 'Festival Aarthi Plates & Doll Display',
+      desc: 'Detailed showcase of multiple customized Aarthi plates, brass lamps, and traditional dolls for wedding ceremonies.'
+    },
+    {
+      img: 'assets/portfolio-car-innova.png',
+      title: 'Premium Floral Car Decor',
+      desc: 'Silver Innova luxury wedding car decorated with fresh red gerbera flowers and floral bouquets.'
+    },
+    {
+      img: 'assets/portfolio-car-jaguar.jpg',
+      title: 'Royal Net & Flower Car Decor',
+      desc: 'White Jaguar premium wedding car styled with elegant pink and purple netting and fresh flower details.'
+    },
+    {
+      img: 'assets/portfolio-car-skoda.png',
+      title: 'Elegant Rose & Frame Car Decor',
+      desc: 'Black Skoda wedding car decorated with fresh pink roses, green foliage, and a personalized couple frame.'
     }
   ];
 
