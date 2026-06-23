@@ -23,10 +23,10 @@ const MobileLandingPage = ({
     phone: "+91 90438 93525",
     phoneUrl: "+919043893525",
     email: "kumarandecoration@gmail.com",
-    instagram: "@vkumaranevents",
-    instagramUrl: "https://instagram.com/vkumaranevents"
+    instagram: "@kumaran_events",
+    instagramUrl: "https://www.instagram.com/kumaran_events"
   },
-  whatsappNumber = "919840381096"
+  whatsappNumber = "919043893525"
 }) => {
   
   // Custom WhatsApp message pre-fill matching original site behavior

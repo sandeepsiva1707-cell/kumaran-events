@@ -526,12 +526,12 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // ==========================================================================
-  // 6. Secure Contact Form & WhatsApp Integration (Directing to +91 9840381096)
+  // 6. Secure Contact Form & WhatsApp Integration (Directing to +91 90438 93525)
   // ==========================================================================
   const form = document.getElementById('secure-inquiry-form');
   const statusMsg = document.getElementById('form-status-msg');
   // Target redirect phone number requested by user
-  const targetPhone = '919840381096';
+  const targetPhone = '919043893525';
 
   if (form) {
     form.addEventListener('submit', (e) => {
