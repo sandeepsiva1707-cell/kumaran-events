@@ -437,6 +437,26 @@ document.addEventListener('DOMContentLoaded', () => {
       img: 'assets/portfolio-bouncers-3.jpg',
       title: 'Professional Security Crew',
       desc: 'Professional crowd management and security team of four bouncers, stationed at the venue entrance.'
+    },
+    {
+      img: 'assets/portfolio-car-audi.jpg',
+      title: 'Luxury Audi Wedding Car Decor',
+      desc: 'Red Audi cabriolet premium wedding car decorated with flower bouquet and ribbons.'
+    },
+    {
+      img: 'assets/portfolio-stage-ganesha.jpg',
+      title: 'Golden Ganesha Stage Backdrop',
+      desc: 'Golden stage decoration with central Ganesha design and flower garlands.'
+    },
+    {
+      img: 'assets/portfolio-stage-circular-gold.png',
+      title: 'Circular Golden Mandap Decor',
+      desc: 'Circular gold mandap stage setup with flower garlands and hanging details.'
+    },
+    {
+      img: 'assets/portfolio-entrance-pink-white.jpg',
+      title: 'Curtained Floral Entrance Setup',
+      desc: 'Stunning entrance walkway decorated with pink and white curtains and fresh flower garlands.'
     }
   ];
 
