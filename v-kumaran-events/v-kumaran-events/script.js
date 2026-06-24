@@ -384,7 +384,8 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: 'birthday', name: 'Birthday' },
         { id: 'welcome-girls', name: 'Welcome Girls' },
         { id: 'photo-booth', name: 'photobooth' },
-        { id: 'bouncers', name: 'bouncer' }
+        { id: 'bouncers', name: 'bouncer' },
+        { id: 'car-decoration', name: 'Car Decoration' }
       ];
 
       // Filter category list to only include categories that actually contain images
