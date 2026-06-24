@@ -330,8 +330,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Map Cloudinary images and extract folder categories
       const cloudImages = data.resources.map(res => {
-        const parts = res.public_id.split('/');
-        const folderName = parts.length > 1 ? parts.slice(0, -1).join('/') : '';
+        let folderName = res.folder || '';
+        if (!folderName) {
+          const parts = res.public_id.split('/');
+          folderName = parts.length > 1 ? parts.slice(0, -1).join('/') : '';
+        }
         let categoryId = folderName 
           ? folderName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') 
           : 'uncategorized';
