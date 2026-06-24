@@ -173,7 +173,9 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================================================
   // 4. Cloudinary Dynamic Portfolio & Fallback Gallery
   // ==========================================================================
-  let galleryData = [];
+   let galleryData = [];
+   let galleryGridItems = [];
+   let currentGalleryIndex = 0;
 
   function formatTitle(publicId, categoryName) {
     const filename = publicId.split('/').pop();
