@@ -752,6 +752,19 @@ document.addEventListener('DOMContentLoaded', () => {
       if (activeBtn) activeBtn.click();
     };
 
+    const extractErrorMsg = async (response) => {
+      const cldError = response.headers.get('x-cld-error');
+      if (cldError) return cldError;
+      try {
+        const text = await response.text();
+        if (text) {
+          const data = JSON.parse(text);
+          return data.details || data.error || `HTTP ${response.status} ${response.statusText || ''}`;
+        }
+      } catch (e) {}
+      return `HTTP ${response.status} ${response.statusText || ''}`;
+    };
+
     const triggerLocalFallback = (error, context) => {
       console.error(`[Gallery] Failure in ${context}. details:`, {
         message: error.message,
@@ -767,9 +780,10 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     fetch(primaryUrl)
-      .then(response => {
+      .then(async response => {
         if (!response.ok) {
-          throw new Error(`Endpoint returned HTTP ${response.status}`);
+          const msg = await extractErrorMsg(response);
+          throw new Error(msg);
         }
         return response.json();
       })
@@ -781,9 +795,10 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (primaryUrl !== listUrl) {
           fetch(listUrl)
-            .then(response => {
+            .then(async response => {
               if (!response.ok) {
-                throw new Error(`Public list endpoint returned HTTP ${response.status}`);
+                const msg = await extractErrorMsg(response);
+                throw new Error(msg);
               }
               return response.json();
             })
