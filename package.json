@@ -6,6 +6,6 @@
     "build": "mkdir -p dist && (cp index.html dist/ || true) && (cp script.js dist/ || true) && (cp styles.css dist/ || true) && (cp MobileLandingPage.css dist/ || true) && (cp -r assets dist/ || true)"
   },
   "dependencies": {
-    "cloudinary": "^1.44.0"
+    "cloudinary": "^2.7.0"
   }
 }
