@@ -178,6 +178,10 @@ document.addEventListener('DOMContentLoaded', () => {
    let currentGalleryIndex = 0;
    
    const galleryStatus = document.getElementById('gallery-status');
+
+   const cloudName = 'ktohexmm';
+   const tag = 'kumaran-gallery';
+   const listUrl = `https://res.cloudinary.com/${cloudName}/image/list/${tag}.json`;
    
   function formatTitle(publicId, categoryName) {
     const filename = publicId.split('/').pop();
@@ -326,10 +330,20 @@ document.addEventListener('DOMContentLoaded', () => {
       const cloudImages = data.resources.map(res => {
         const parts = res.public_id.split('/');
         const folderName = parts.length > 1 ? parts.slice(0, -1).join('/') : '';
-        const categoryId = folderName 
+        let categoryId = folderName 
           ? folderName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') 
           : 'uncategorized';
-        const categoryName = folderName || 'Uncategorized';
+        let categoryName = folderName || 'Uncategorized';
+
+        // Standardize photobooth and bouncer categories as requested
+        if (categoryId === 'photo-booth' || categoryId === 'photobooth') {
+          categoryId = 'photo-booth';
+          categoryName = 'photobooth';
+        }
+        if (categoryId === 'bouncers' || categoryId === 'bouncer') {
+          categoryId = 'bouncers';
+          categoryName = 'bouncer';
+        }
         
         const title = formatTitle(res.public_id, categoryName);
         const desc = formatDescription(title, categoryName);
@@ -356,16 +370,25 @@ document.addEventListener('DOMContentLoaded', () => {
       galleryData = cloudImages;
 
       // Extract unique categories from the Cloudinary images
-      const uniqueCategoriesMap = new Map();
-      cloudImages.forEach(img => {
-        if (img.category !== 'uncategorized') {
-          uniqueCategoriesMap.set(img.category, img.categoryName);
-        }
-      });
+      const uniqueCategories = new Set(cloudImages.map(img => img.category));
       
-      const sortedCategories = Array.from(uniqueCategoriesMap.entries())
-        .map(([id, name]) => ({ id, name }))
-        .sort((a, b) => a.name.localeCompare(b.name));
+      // Exact order specified by user
+      const categoryOrder = [
+        { id: 'entrance-gate', name: 'Entrance Gate' },
+        { id: 'welcome-entrance', name: 'Welcome Entrance' },
+        { id: 'hall-decoration', name: 'Hall Decoration' },
+        { id: 'reception-stage', name: 'Reception Stage' },
+        { id: 'wedding-decor', name: 'Wedding Decor' },
+        { id: 'garland', name: 'Garland' },
+        { id: 'aarthi-plates', name: 'Aarthi Plates' },
+        { id: 'birthday', name: 'Birthday' },
+        { id: 'welcome-girls', name: 'Welcome Girls' },
+        { id: 'photo-booth', name: 'photobooth' },
+        { id: 'bouncers', name: 'bouncer' }
+      ];
+
+      // Filter category list to only include categories that actually contain images
+      const sortedCategories = categoryOrder.filter(cat => uniqueCategories.has(cat.id));
 
       // Build the filter buttons dynamically in the DOM
       const filtersContainer = document.getElementById('gal-filters');
@@ -379,7 +402,7 @@ document.addEventListener('DOMContentLoaded', () => {
         allBtn.textContent = 'All Portfolio';
         filtersContainer.appendChild(allBtn);
         
-        // Create category buttons
+        // Create category buttons in specified order
         sortedCategories.forEach(cat => {
           const btn = document.createElement('button');
           btn.className = 'filter-btn';
