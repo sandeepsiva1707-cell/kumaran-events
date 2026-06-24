@@ -314,13 +314,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const isLocalFile = window.location.protocol === 'file:';
     // Use Serverless backend if served over HTTP/HTTPS, fallback to public List API locally
-    const primaryUrl = isLocalFile ? listUrl : '/api/gallery';
-
+     const primaryUrl = '/api/gallery';
     console.log(`[Gallery] Loading from: ${primaryUrl}`);
 
     const processGalleryData = (data) => {
       if (!data || !data.resources || data.resources.length === 0) {
-        throw new Error('No images found in Cloudinary for tag ' + tag);
+         throw new Error('No images found in Cloudinary');
       }
 
       // Map Cloudinary images and extract folder categories
