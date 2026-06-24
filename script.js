@@ -448,9 +448,9 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .catch(primaryError => {
         console.warn(`[Gallery] Primary loading failed: ${primaryError.message}. Trying public list fallback.`);
-        
-        if (primaryUrl !== listUrl) {
-          fetch(listUrl)
+
+         if (false) {
+            fetch('/api/gallery')
             .then(async response => {
               if (!response.ok) {
                 const msg = await extractErrorMsg(response);
