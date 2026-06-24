@@ -678,91 +678,123 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  // Main loader for Cloudinary listing
+  // Main loader for Cloudinary listing supporting serverless API route and public API fallback
   const loadCloudinaryGallery = () => {
     if (galleryStatus) {
       galleryStatus.textContent = 'Loading live gallery updates...';
       galleryStatus.classList.add('active');
     }
 
-    fetch(listUrl)
+    const isLocalFile = window.location.protocol === 'file:';
+    // Use Serverless backend if served over HTTP/HTTPS, fallback to public List API locally
+    const primaryUrl = isLocalFile ? listUrl : '/api/gallery';
+
+    console.log(`[Gallery] Loading from: ${primaryUrl}`);
+
+    const processGalleryData = (data) => {
+      if (!data || !data.resources || data.resources.length === 0) {
+        throw new Error('No images found in Cloudinary for tag ' + tag);
+      }
+
+      // Map Cloudinary images
+      const cloudImages = data.resources.map(res => {
+        const cat = detectCategory(res.public_id);
+        const title = formatTitle(res.public_id, cat.name);
+        const desc = formatDescription(title, cat.name);
+        
+        // Apply Cloudinary automatic format/quality optimizations and width limits
+        const imgUrl = `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto,w_600/v${res.version}/${res.public_id}.${res.format}`;
+        const fullImgUrl = `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto,w_1600/v${res.version}/${res.public_id}.${res.format}`;
+        
+        return {
+          img: imgUrl,
+          fullImg: fullImgUrl,
+          title: title,
+          desc: desc,
+          category: cat.id,
+          categoryName: cat.name,
+          date: new Date(res.created_at)
+        };
+      });
+
+      // Sort Cloudinary images by date uploaded (newest first)
+      cloudImages.sort((a, b) => b.date - a.date);
+
+      // Keep local fallback images that were not migrated to Cloudinary
+      const mergedImages = [...cloudImages];
+      galleryData.forEach(fallbackItem => {
+        const isUploaded = cloudImages.some(cloudItem => {
+          const fallbackName = fallbackItem.img.split('/').pop().split('.')[0];
+          return cloudItem.img.includes(fallbackName);
+        });
+        
+        if (!isUploaded) {
+          mergedImages.push(fallbackItem);
+        }
+      });
+
+      // Set the active gallery data to the merged result
+      galleryData = mergedImages;
+
+      // Render the new items dynamically
+      renderGrid();
+
+      // Update status message
+      if (galleryStatus) {
+        galleryStatus.textContent = '✓ Live portfolio updates loaded';
+        setTimeout(() => {
+          galleryStatus.classList.remove('active');
+        }, 3000);
+      }
+
+      // Apply active filter state
+      const activeBtn = document.querySelector('.filter-btn.active');
+      if (activeBtn) activeBtn.click();
+    };
+
+    const triggerLocalFallback = (error, context) => {
+      console.error(`[Gallery] Failure in ${context}. details:`, {
+        message: error.message,
+        error: error,
+        endpoint: primaryUrl,
+        file: 'script.js',
+        line: 688
+      });
+      if (galleryStatus) {
+        galleryStatus.innerHTML = `⚠️ Displaying offline gallery. Cloudinary connection error: ${error.message}`;
+        galleryStatus.classList.add('active');
+      }
+    };
+
+    fetch(primaryUrl)
       .then(response => {
         if (!response.ok) {
-          throw new Error('Cloudinary Resource List API is disabled or returned an error.');
+          throw new Error(`Endpoint returned HTTP ${response.status}`);
         }
         return response.json();
       })
       .then(data => {
-        if (!data || !data.resources || data.resources.length === 0) {
-          throw new Error('No images found in Cloudinary for tag ' + tag);
-        }
-
-        // Map Cloudinary images
-        const cloudImages = data.resources.map(res => {
-          const cat = detectCategory(res.public_id);
-          const title = formatTitle(res.public_id, cat.name);
-          const desc = formatDescription(title, cat.name);
-          
-          // Apply Cloudinary automatic format/quality optimizations and width limits
-          const imgUrl = `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto,w_600/v${res.version}/${res.public_id}.${res.format}`;
-          const fullImgUrl = `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto,w_1600/v${res.version}/${res.public_id}.${res.format}`;
-          
-          return {
-            img: imgUrl,
-            fullImg: fullImgUrl,
-            title: title,
-            desc: desc,
-            category: cat.id,
-            categoryName: cat.name,
-            date: new Date(res.created_at)
-          };
-        });
-
-        // Sort Cloudinary images by date uploaded (newest first)
-        cloudImages.sort((a, b) => b.date - a.date);
-
-        // Keep local fallback images that were not migrated to Cloudinary
-        const mergedImages = [...cloudImages];
-        galleryData.forEach(fallbackItem => {
-          const isUploaded = cloudImages.some(cloudItem => {
-            const fallbackName = fallbackItem.img.split('/').pop().split('.')[0];
-            return cloudItem.img.includes(fallbackName);
-          });
-          
-          if (!isUploaded) {
-            mergedImages.push(fallbackItem);
-          }
-        });
-
-        // Set the active gallery data to the merged result
-        galleryData = mergedImages;
-
-        // Render the new items dynamically
-        renderGrid();
-
-        // Update status message
-        if (galleryStatus) {
-          galleryStatus.textContent = '✓ Live portfolio updates loaded';
-          setTimeout(() => {
-            galleryStatus.classList.remove('active');
-          }, 3000);
-        }
-
-        // Apply active filter state
-        const activeBtn = document.querySelector('.filter-btn.active');
-        if (activeBtn) activeBtn.click();
+        processGalleryData(data);
       })
-      .catch(error => {
-        console.error('Cloudinary dynamic gallery connection failed. Details:', {
-          message: error.message,
-          error: error,
-          endpoint: listUrl,
-          file: 'script.js',
-          line: 660
-        });
-        if (galleryStatus) {
-          galleryStatus.innerHTML = '⚠️ Displaying offline gallery. Cloudinary updates temporarily unavailable.';
-          galleryStatus.classList.add('active');
+      .catch(primaryError => {
+        console.warn(`[Gallery] Primary loading failed: ${primaryError.message}. Trying public list fallback.`);
+        
+        if (primaryUrl !== listUrl) {
+          fetch(listUrl)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error(`Public list endpoint returned HTTP ${response.status}`);
+              }
+              return response.json();
+            })
+            .then(data => {
+              processGalleryData(data);
+            })
+            .catch(fallbackError => {
+              triggerLocalFallback(fallbackError, 'both Serverless API and Cloudinary public List API');
+            });
+        } else {
+          triggerLocalFallback(primaryError, 'primary Cloudinary public List API');
         }
       });
   };

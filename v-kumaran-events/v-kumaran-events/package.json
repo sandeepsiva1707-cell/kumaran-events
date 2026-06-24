@@ -1,0 +1,8 @@
+{
+  "name": "v-kumaran-events",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "cloudinary": "^1.44.0"
+  }
+}
