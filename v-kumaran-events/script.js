@@ -318,7 +318,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const isLocalFile = window.location.protocol === 'file:';
     // Use Serverless backend if served over HTTP/HTTPS, fallback to public List API locally
-     const primaryUrl = '/api/gallery';
+    const baseApiUrl = isLocalFile ? listUrl : '/api/gallery';
+    // Add cache buster query parameter to force fetching fresh data from the serverless api or Cloudinary
+    const primaryUrl = `${baseApiUrl}${baseApiUrl.includes('?') ? '&' : '?'}t=${Date.now()}`;
     console.log(`[Gallery] Loading from: ${primaryUrl}`);
 
     const processGalleryData = (data) => {
