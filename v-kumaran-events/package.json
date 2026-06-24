@@ -1,0 +1,11 @@
+{
+  "name": "v-kumaran-events",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "echo 'Static build success'"
+  },
+  "dependencies": {
+    "cloudinary": "^1.44.0"
+  }
+}
