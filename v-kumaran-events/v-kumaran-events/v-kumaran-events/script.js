@@ -188,8 +188,32 @@ document.addEventListener('DOMContentLoaded', () => {
     { id: 'car-decoration', name: 'Car Decoration', folders: ['car decoration', 'car-decoration'] }
   ];
 
-  const cloudName = 'ktohexmm';
-  const tag = 'kumaran-gallery';
+  // Resolve environment variables supporting Vite (import.meta.env) and Node/Bundler environments (process.env)
+  let cloudName = 'ktohexmm';
+  let tag = 'kumaran-gallery';
+
+  try {
+    if (typeof import.meta !== 'undefined' && import.meta.env) {
+      if (import.meta.env.VITE_CLOUDINARY_CLOUD_NAME) {
+        cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+      }
+      if (import.meta.env.VITE_CLOUDINARY_GALLERY_TAG) {
+        tag = import.meta.env.VITE_CLOUDINARY_GALLERY_TAG;
+      }
+    } else if (typeof process !== 'undefined' && process.env) {
+      if (process.env.VITE_CLOUDINARY_CLOUD_NAME) {
+        cloudName = process.env.VITE_CLOUDINARY_CLOUD_NAME;
+      } else if (process.env.CLOUDINARY_CLOUD_NAME) {
+        cloudName = process.env.CLOUDINARY_CLOUD_NAME;
+      }
+      if (process.env.VITE_CLOUDINARY_GALLERY_TAG) {
+        tag = process.env.VITE_CLOUDINARY_GALLERY_TAG;
+      }
+    }
+  } catch (e) {
+    console.warn('Failed to resolve Cloudinary environment variables, using default fallback parameters.', e);
+  }
+
   const listUrl = `https://res.cloudinary.com/${cloudName}/image/list/${tag}.json`;
 
   const filterButtons = document.querySelectorAll('.filter-btn');
@@ -729,7 +753,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (activeBtn) activeBtn.click();
       })
       .catch(error => {
-        console.warn('Using local fallback portfolio gallery: ', error.message);
+        console.error('Cloudinary dynamic gallery connection failed. Details:', {
+          message: error.message,
+          error: error,
+          endpoint: listUrl,
+          file: 'script.js',
+          line: 660
+        });
         if (galleryStatus) {
           galleryStatus.innerHTML = '⚠️ Displaying offline gallery. Cloudinary updates temporarily unavailable.';
           galleryStatus.classList.add('active');
