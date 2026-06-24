@@ -173,386 +173,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ==========================================================================
   // 4. Cloudinary Dynamic Portfolio & Fallback Gallery
   // ==========================================================================
-  const CATEGORIES = [
-    { id: 'entrance-gate', name: 'Entrance Gate', folders: ['entrance gate', 'entrance-gate'] },
-    { id: 'welcome-entrance', name: 'Welcome Entrance', folders: ['welcome entrance', 'welcome-entrance'] },
-    { id: 'hall-decoration', name: 'Hall Decoration', folders: ['hall decoration', 'hall-decoration'] },
-    { id: 'reception-stage', name: 'Reception Stage', folders: ['reception stage', 'reception-stage'] },
-    { id: 'wedding-decor', name: 'Wedding Decor', folders: ['wedding decor', 'wedding-decor'] },
-    { id: 'garland', name: 'Garland', folders: ['garland'] },
-    { id: 'aarthi-plates', name: 'Aarthi Plates', folders: ['aarthi plates', 'aarthi-plates'] },
-    { id: 'birthday', name: 'Birthday', folders: ['birthday'] },
-    { id: 'welcome-girls', name: 'Welcome Girls', folders: ['welcome girls', 'welcome-girls'] },
-    { id: 'photobooth', name: 'Photo Booth', folders: ['photo booth', 'photo-booth', 'photobooth'] },
-    { id: 'bouncer', name: 'Bouncers', folders: ['bouncers', 'bouncer'] },
-    { id: 'car-decoration', name: 'Car Decoration', folders: ['car decoration', 'car-decoration'] }
-  ];
-
-  // Resolve environment variables supporting Vite (import.meta.env) and Node/Bundler environments (process.env)
-  let cloudName = 'ktohexmm';
-  let tag = 'kumaran-gallery';
-
-  try {
-    if (typeof import.meta !== 'undefined' && import.meta.env) {
-      if (import.meta.env.VITE_CLOUDINARY_CLOUD_NAME) {
-        cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
-      }
-      if (import.meta.env.VITE_CLOUDINARY_GALLERY_TAG) {
-        tag = import.meta.env.VITE_CLOUDINARY_GALLERY_TAG;
-      }
-    } else if (typeof process !== 'undefined' && process.env) {
-      if (process.env.VITE_CLOUDINARY_CLOUD_NAME) {
-        cloudName = process.env.VITE_CLOUDINARY_CLOUD_NAME;
-      } else if (process.env.CLOUDINARY_CLOUD_NAME) {
-        cloudName = process.env.CLOUDINARY_CLOUD_NAME;
-      }
-      if (process.env.VITE_CLOUDINARY_GALLERY_TAG) {
-        tag = process.env.VITE_CLOUDINARY_GALLERY_TAG;
-      }
-    }
-  } catch (e) {
-    console.warn('Failed to resolve Cloudinary environment variables, using default fallback parameters.', e);
-  }
-
-  const listUrl = `https://res.cloudinary.com/${cloudName}/image/list/${tag}.json`;
-
-  const filterButtons = document.querySelectorAll('.filter-btn');
-  const galleryStatus = document.getElementById('gallery-status');
-  let galleryGridItems = document.querySelectorAll('.gallery-item');
-  let currentGalleryIndex = 0;
-
-  // Local static fallback data in case Cloudinary is offline or before tags are set up
-  let galleryData = [
-    {
-      img: 'assets/portfolio-stage-gold.jpg',
-      title: 'Royal Traditional Stage',
-      desc: 'Elegant traditional South Indian wedding stage decoration with golden carved pillars, fresh marigolds, and white jasmine.',
-      category: 'wedding-decor',
-      categoryName: 'Wedding Decor'
-    },
-    {
-      img: 'assets/portfolio-stage-arches.jpg',
-      title: 'Pastel Arches Stage',
-      desc: 'Contemporary stage backdrop setup with pastel-themed floral drapes, geometric flower arches, and white wedding sofa.',
-      category: 'reception-stage',
-      categoryName: 'Reception Stage'
-    },
-    {
-      img: 'assets/portfolio-walkway-mauve.png',
-      title: 'Mauve Entrance Walkway',
-      desc: 'Stunning wedding walkway tunnel decorated with mauve and white curtains, floral panels, and custom LED uplighting.',
-      category: 'welcome-entrance',
-      categoryName: 'Welcome Entrance'
-    },
-    {
-      img: 'assets/portfolio-hall-decor-white.jpg',
-      title: 'White Floral Hall Decor',
-      desc: 'Stunning stage decoration with a grand white floral arch backdrop, gold seating couch, and fresh flower decorations.',
-      category: 'hall-decoration',
-      categoryName: 'Hall Decoration'
-    },
-    {
-      img: 'assets/portfolio-hall-decor-gold.jpg',
-      title: 'Golden Theme Hall Decor',
-      desc: 'Luxury wedding hall setup with golden arches, rich traditional lighting, and an elegant maharaja sofa.',
-      category: 'hall-decoration',
-      categoryName: 'Hall Decoration'
-    },
-    {
-      img: 'assets/portfolio-selfiebooth.png',
-      title: 'Welcome Board Easel',
-      desc: 'Traditional wedding welcome easel board decorated with floral garlands, warm fairy lights, and vintage white birdcages.',
-      category: 'photobooth',
-      categoryName: 'Photo Booth'
-    },
-    {
-      img: 'assets/portfolio-entrance-walkway.png',
-      title: 'Yellow Entrance Walkway',
-      desc: 'Stunning event entrance walkway tunnel featuring yellow fabric draping, warm LED lighting columns, and white window arches.',
-      category: 'welcome-entrance',
-      categoryName: 'Welcome Entrance'
-    },
-    {
-      img: 'assets/portfolio-stage-pink.png',
-      title: 'Pink Lotus Backdrop',
-      desc: 'Elegant stage backdrop featuring hand-painted pink lotus flowers, matching pink floral borders, and hanging marigold garlands.',
-      category: 'wedding-decor',
-      categoryName: 'Wedding Decor'
-    },
-    {
-      img: 'assets/portfolio-stage-white.jpg',
-      title: 'White Stage Backdrop',
-      desc: 'Premium modern stage setup featuring geometric panels, fresh floral arches, and wedding couches.',
-      category: 'reception-stage',
-      categoryName: 'Reception Stage'
-    },
-    {
-      img: 'assets/portfolio-welcome-girls-1.jpg',
-      title: 'Event Coordinator Team',
-      desc: 'Professional event coordination girls and hostesses in smart uniforms, equipped for guest reception and coordination details.',
-      category: 'welcome-girls',
-      categoryName: 'Welcome Girls'
-    },
-    {
-      img: 'assets/portfolio-welcome-girls-2.jpg',
-      title: 'Traditional Hostesses',
-      desc: 'Welcome girls in beautiful blue and yellow traditional floral saris, standing next to the welcome sign easel.',
-      category: 'welcome-girls',
-      categoryName: 'Welcome Girls'
-    },
-    {
-      img: 'assets/portfolio-welcome-girls-3.jpg',
-      title: 'Royal Event Welcome Team',
-      desc: 'Traditional welcome girls in coordinating beige and purple border saris, presenting at the guest reception area.',
-      category: 'welcome-girls',
-      categoryName: 'Welcome Girls'
-    },
-    {
-      img: 'assets/portfolio-bouncers-1.jpg',
-      title: 'Elite Security Team',
-      desc: 'Professional male security bouncers in black uniforms standing in line at the venue entrance.',
-      category: 'bouncer',
-      categoryName: 'Bouncers'
-    },
-    {
-      img: 'assets/portfolio-bouncers-2.jpg',
-      title: 'Security Crew',
-      desc: 'Professional male bouncers and crowd management team standing in a marriage hall during an event.',
-      category: 'bouncer',
-      categoryName: 'Bouncers'
-    },
-    {
-      img: 'assets/portfolio-garland-couple.png',
-      title: 'Bridal Rose Garland',
-      desc: 'Exquisite red rose wedding garlands accented with gold beads, held during a traditional Indian marriage ceremony.',
-      category: 'garland',
-      categoryName: 'Garland'
-    },
-    {
-      img: 'assets/portfolio-garland-vertical.jpg',
-      title: 'Traditional Jasmine Garland',
-      desc: 'Premium flower garlands handcrafted with fresh red roses, white jasmine buds, and gold ornamental trims.',
-      category: 'garland',
-      categoryName: 'Garland'
-    },
-    {
-      img: 'assets/portfolio-photobooth-neon.jpg',
-      title: 'Neon Backdrop Photobooth',
-      desc: 'Lush green foliage backdrop accented with white roses, hanging leaves, and a customizable neon sign.',
-      category: 'photobooth',
-      categoryName: 'Photo Booth'
-    },
-    {
-      img: 'assets/portfolio-photobooth-ringlight.jpg',
-      title: 'Foliage Wall Photobooth',
-      desc: 'Interactive photo booth corner complete with a green floral wall backdrop, ring light setup, and guest area.',
-      category: 'photobooth',
-      categoryName: 'Photo Booth'
-    },
-    {
-      img: 'assets/portfolio-birthday-arch.jpg',
-      title: 'Circular Balloon Backdrop',
-      desc: 'Beautiful round backdrop with blue, pink, and gold balloon decorations and a Happy Birthday neon light.',
-      category: 'birthday',
-      categoryName: 'Birthday'
-    },
-    {
-      img: 'assets/portfolio-birthday-cocomelon.jpg',
-      title: 'Cocomelon Theme Backdrop',
-      desc: 'Lively kids birthday party backdrop featuring Cocomelon character designs, balloon arches, and Yazhisai letter light boards.',
-      category: 'birthday',
-      categoryName: 'Birthday'
-    },
-    {
-      img: 'assets/portfolio-birthday-raha.jpg',
-      title: 'Raha 1st Birthday Backdrop',
-      desc: 'Premium kids birthday theme decor with blue, white, and gold balloon clusters, a circular stage board, and custom neon lights.',
-      category: 'birthday',
-      categoryName: 'Birthday'
-    },
-    {
-      img: 'assets/portfolio-walkway-pink-arches.png',
-      title: 'Pink Illuminated Walkway',
-      desc: 'Stunning walkway entrance setup with pink and purple illumination, white floral window panels, and ceiling drapes.',
-      category: 'welcome-entrance',
-      categoryName: 'Welcome Entrance'
-    },
-    {
-      img: 'assets/portfolio-entrance-banana-leaf.jpg',
-      title: 'Traditional Banana Leaf Entrance',
-      desc: 'Classic South Indian wedding entrance decorated with banana leaves, fresh marigold garlands, and ornamental leaf star designs.',
-      category: 'entrance-gate',
-      categoryName: 'Entrance Gate'
-    },
-    {
-      img: 'assets/portfolio-entrance-gold-banana.jpg',
-      title: 'Golden Traditional Entrance',
-      desc: 'Elegant golden entrance arch featuring traditional flower decorations, hanging banana bunches, and fresh marigold borders.',
-      category: 'entrance-gate',
-      categoryName: 'Entrance Gate'
-    },
-    {
-      img: 'assets/portfolio-entrance-royal-gold.png',
-      title: 'Royal Golden Entrance Arch',
-      desc: 'Grand event entrance gate featuring royal golden carvings, matching side panels, and beautiful red flower accents.',
-      category: 'entrance-gate',
-      categoryName: 'Entrance Gate'
-    },
-    {
-      img: 'assets/portfolio-walkway-traditional-ganesha.jpg',
-      title: 'Traditional Ganesha Walkway',
-      desc: 'Elegant wedding entrance pathway featuring red and yellow fabric drapes, hanging brass bells, and a golden Ganesha idol.',
-      category: 'welcome-entrance',
-      categoryName: 'Welcome Entrance'
-    },
-    {
-      img: 'assets/portfolio-welcome-white-arch.jpg',
-      title: 'White Arch Entrance Passage',
-      desc: 'Magnificent welcome walkway featuring a series of white floral arches, red carpet, and pink flower borders.',
-      category: 'welcome-entrance',
-      categoryName: 'Welcome Entrance'
-    },
-    {
-      img: 'assets/portfolio-welcome-banners.jpg',
-      title: 'Welcome Banners Walkway',
-      desc: 'Stunning outdoor welcome entrance pathway decorated with bright red curtains, custom welcome banners, and floral arches.',
-      category: 'welcome-entrance',
-      categoryName: 'Welcome Entrance'
-    },
-    {
-      img: 'assets/portfolio-welcome-bells-path.jpg',
-      title: 'Traditional Ganesha & Bells Entrance',
-      desc: 'Stately welcome walkway decorated with golden lighting strings, traditional hanging bells, and a central Ganesha statue.',
-      category: 'welcome-entrance',
-      categoryName: 'Welcome Entrance'
-    },
-    {
-      img: 'assets/portfolio-aarthi-plate-1.jpg',
-      title: 'Traditional Decorated Aarthi Plates & Dolls',
-      desc: 'Exquisite display of hand-decorated Aarthi plates, traditional dolls, and festival items on a green and red table setup.',
-      category: 'aarthi-plates',
-      categoryName: 'Aarthi Plates'
-    },
-    {
-      img: 'assets/portfolio-aarthi-plate-2.jpg',
-      title: 'Festival Aarthi Plates & Doll Display',
-      desc: 'Detailed showcase of multiple customized Aarthi plates, brass lamps, and traditional dolls for wedding ceremonies.',
-      category: 'aarthi-plates',
-      categoryName: 'Aarthi Plates'
-    },
-    {
-      img: 'assets/portfolio-car-innova.png',
-      title: 'Premium Floral Car Decor',
-      desc: 'Silver Innova luxury wedding car decorated with fresh red gerbera flowers and floral bouquets.',
-      category: 'car-decoration',
-      categoryName: 'Car Decoration'
-    },
-    {
-      img: 'assets/portfolio-car-jaguar.jpg',
-      title: 'Royal Net & Flower Car Decor',
-      desc: 'White Jaguar premium wedding car styled with elegant pink and purple netting and fresh flower details.',
-      category: 'car-decoration',
-      categoryName: 'Car Decoration'
-    },
-    {
-      img: 'assets/portfolio-car-skoda.png',
-      title: 'Elegant Rose & Frame Car Decor',
-      desc: 'Black Skoda wedding car decorated with fresh pink roses, green foliage, and a personalized couple frame.',
-      category: 'car-decoration',
-      categoryName: 'Car Decoration'
-    },
-    {
-      img: 'assets/portfolio-stage-jasmine-arches.png',
-      title: 'Traditional Jasmine Stage Arches',
-      desc: 'Elegant wedding stage decoration featuring hanging jasmine flower garlands arranged in beautiful overlapping arches against a warm golden backdrop.',
-      category: 'wedding-decor',
-      categoryName: 'Wedding Decor'
-    },
-    {
-      img: 'assets/portfolio-stage-golden-mandap.jpg',
-      title: 'Golden Temple Mandap Setup',
-      desc: 'Magnificent gold wedding mandap setup designed like a traditional temple dome, adorned with colorful flower garlands and flanking deities.',
-      category: 'wedding-decor',
-      categoryName: 'Wedding Decor'
-    },
-    {
-      img: 'assets/portfolio-garland-pink-white.jpg',
-      title: 'Pink & White Rose Garland',
-      desc: 'Beautifully handcrafted wedding garlands featuring alternating layers of fresh pink and white roses with delicate baby\'s breath.',
-      category: 'garland',
-      categoryName: 'Garland'
-    },
-    {
-      img: 'assets/portfolio-garland-white-rose.png',
-      title: 'Elegant White Rose Garland',
-      desc: 'Premium white rose wedding garland woven with baby\'s breath, accompanied by a matching bridal flower bouquet.',
-      category: 'garland',
-      categoryName: 'Garland'
-    },
-    {
-      img: 'assets/portfolio-bouncers-3.jpg',
-      title: 'Professional Security Crew',
-      desc: 'Professional crowd management and security team of four bouncers, stationed at the venue entrance.',
-      category: 'bouncer',
-      categoryName: 'Bouncers'
-    },
-    {
-      img: 'assets/portfolio-car-audi.jpg',
-      title: 'Luxury Audi Wedding Car Decor',
-      desc: 'Red Audi cabriolet premium wedding car decorated with flower bouquet and ribbons.',
-      category: 'car-decoration',
-      categoryName: 'Car Decoration'
-    },
-    {
-      img: 'assets/portfolio-stage-ganesha.jpg',
-      title: 'Golden Ganesha Stage Backdrop',
-      desc: 'Golden stage decoration with central Ganesha design and flower garlands.',
-      category: 'wedding-decor',
-      categoryName: 'Wedding Decor'
-    },
-    {
-      img: 'assets/portfolio-stage-circular-gold.png',
-      title: 'Circular Golden Mandap Decor',
-      desc: 'Circular gold mandap stage setup with flower garlands and hanging details.',
-      category: 'reception-stage',
-      categoryName: 'Reception Stage'
-    },
-    {
-      img: 'assets/portfolio-entrance-pink-white.jpg',
-      title: 'Curtained Floral Entrance Setup',
-      desc: 'Stunning entrance walkway decorated with pink and white curtains and fresh flower garlands.',
-      category: 'entrance-gate',
-      categoryName: 'Entrance Gate'
-    }
-  ];
-
-  // Helper functions for parsing publicId
-  function detectCategory(publicId) {
-    const parts = publicId.toLowerCase().split('/');
-    for (let part of parts) {
-      const normalizedPart = part.replace(/[^a-z0-9]/g, '');
-      for (const cat of CATEGORIES) {
-        for (const f of cat.folders) {
-          const normalizedFolder = f.replace(/[^a-z0-9]/g, '');
-          if (normalizedPart === normalizedFolder) {
-            return cat;
-          }
-        }
-      }
-    }
-    // Substring fallback
-    const cleanPublicId = publicId.toLowerCase().replace(/[^a-z0-9]/g, '');
-    for (const cat of CATEGORIES) {
-      for (const f of cat.folders) {
-        const normalizedFolder = f.replace(/[^a-z0-9]/g, '');
-        if (cleanPublicId.includes(normalizedFolder)) {
-          return cat;
-        }
-      }
-    }
-    // Default to Wedding Decor
-    return CATEGORIES.find(c => c.id === 'wedding-decor') || CATEGORIES[4];
-  }
+  let galleryData = [];
 
   function formatTitle(publicId, categoryName) {
     const filename = publicId.split('/').pop();
@@ -575,49 +196,13 @@ document.addEventListener('DOMContentLoaded', () => {
     return `Beautiful ${categoryName} setup featuring ${title}, customized and organized by V. Kumaran Decors & Events in Arani.`;
   }
 
-  // Filter initialization function
-  const setupFilters = () => {
-    filterButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        filterButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-
-        const filterValue = button.getAttribute('data-filter');
-
-        let visibleIndex = 0;
-        galleryGridItems.forEach(item => {
-          const categories = item.getAttribute('data-category');
-          const matchesCategory = filterValue === 'all' || categories.includes(filterValue);
-          const matchesLimit = filterValue !== 'all' || visibleIndex < 9;
-          const matches = matchesCategory && matchesLimit;
-          
-          if (matches) {
-            item.style.display = 'block';
-            setTimeout(() => {
-              item.style.opacity = '1';
-              item.style.transform = 'scale(1)';
-            }, 10);
-            item.setAttribute('data-visible-index', visibleIndex.toString());
-            visibleIndex++;
-          } else {
-            item.style.opacity = '0';
-            item.style.transform = 'scale(0.8)';
-            setTimeout(() => {
-              item.style.display = 'none';
-            }, 400);
-            item.removeAttribute('data-visible-index');
-          }
-        });
-      });
-    });
-  };
-
-  // Initial grid rendering (runs immediately using fallback, updated if Cloudinary successfully loads)
+  // Initial grid rendering (dynamic based on galleryData loaded from Cloudinary)
   const renderGrid = () => {
     const grid = document.getElementById('gal-grid');
     if (!grid) return;
 
     grid.innerHTML = '';
+
     galleryData.forEach((item, idx) => {
       const el = document.createElement('div');
       el.className = 'gallery-item';
@@ -678,6 +263,44 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
+  // Filter initialization function - selects buttons dynamically from latest DOM state
+  const setupFilters = () => {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        filterButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        const filterValue = button.getAttribute('data-filter');
+
+        let visibleIndex = 0;
+        galleryGridItems.forEach(item => {
+          const categories = item.getAttribute('data-category');
+          const matchesCategory = filterValue === 'all' || categories === filterValue;
+          const matchesLimit = filterValue !== 'all' || visibleIndex < 9;
+          const matches = matchesCategory && matchesLimit;
+          
+          if (matches) {
+            item.style.display = 'block';
+            setTimeout(() => {
+              item.style.opacity = '1';
+              item.style.transform = 'scale(1)';
+            }, 10);
+            item.setAttribute('data-visible-index', visibleIndex.toString());
+            visibleIndex++;
+          } else {
+            item.style.opacity = '0';
+            item.style.transform = 'scale(0.8)';
+            setTimeout(() => {
+              item.style.display = 'none';
+            }, 400);
+            item.removeAttribute('data-visible-index');
+          }
+        });
+      });
+    });
+  };
+
   // Main loader for Cloudinary listing supporting serverless API route and public API fallback
   const loadCloudinaryGallery = () => {
     if (galleryStatus) {
@@ -696,11 +319,17 @@ document.addEventListener('DOMContentLoaded', () => {
         throw new Error('No images found in Cloudinary for tag ' + tag);
       }
 
-      // Map Cloudinary images
+      // Map Cloudinary images and extract folder categories
       const cloudImages = data.resources.map(res => {
-        const cat = detectCategory(res.public_id);
-        const title = formatTitle(res.public_id, cat.name);
-        const desc = formatDescription(title, cat.name);
+        const parts = res.public_id.split('/');
+        const folderName = parts.length > 1 ? parts.slice(0, -1).join('/') : '';
+        const categoryId = folderName 
+          ? folderName.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') 
+          : 'uncategorized';
+        const categoryName = folderName || 'Uncategorized';
+        
+        const title = formatTitle(res.public_id, categoryName);
+        const desc = formatDescription(title, categoryName);
         
         // Apply Cloudinary automatic format/quality optimizations and width limits
         const imgUrl = `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto,w_600/v${res.version}/${res.public_id}.${res.format}`;
@@ -711,8 +340,8 @@ document.addEventListener('DOMContentLoaded', () => {
           fullImg: fullImgUrl,
           title: title,
           desc: desc,
-          category: cat.id,
-          categoryName: cat.name,
+          category: categoryId,
+          categoryName: categoryName,
           date: new Date(res.created_at)
         };
       });
@@ -720,24 +349,48 @@ document.addEventListener('DOMContentLoaded', () => {
       // Sort Cloudinary images by date uploaded (newest first)
       cloudImages.sort((a, b) => b.date - a.date);
 
-      // Keep local fallback images that were not migrated to Cloudinary
-      const mergedImages = [...cloudImages];
-      galleryData.forEach(fallbackItem => {
-        const isUploaded = cloudImages.some(cloudItem => {
-          const fallbackName = fallbackItem.img.split('/').pop().split('.')[0];
-          return cloudItem.img.includes(fallbackName);
-        });
-        
-        if (!isUploaded) {
-          mergedImages.push(fallbackItem);
+      // Remove dependency on fallback gallery completely
+      galleryData = cloudImages;
+
+      // Extract unique categories from the Cloudinary images
+      const uniqueCategoriesMap = new Map();
+      cloudImages.forEach(img => {
+        if (img.category !== 'uncategorized') {
+          uniqueCategoriesMap.set(img.category, img.categoryName);
         }
       });
+      
+      const sortedCategories = Array.from(uniqueCategoriesMap.entries())
+        .map(([id, name]) => ({ id, name }))
+        .sort((a, b) => a.name.localeCompare(b.name));
 
-      // Set the active gallery data to the merged result
-      galleryData = mergedImages;
+      // Build the filter buttons dynamically in the DOM
+      const filtersContainer = document.getElementById('gal-filters');
+      if (filtersContainer) {
+        filtersContainer.innerHTML = '';
+        
+        // Create "All" button
+        const allBtn = document.createElement('button');
+        allBtn.className = 'filter-btn active';
+        allBtn.setAttribute('data-filter', 'all');
+        allBtn.textContent = 'All Portfolio';
+        filtersContainer.appendChild(allBtn);
+        
+        // Create category buttons
+        sortedCategories.forEach(cat => {
+          const btn = document.createElement('button');
+          btn.className = 'filter-btn';
+          btn.setAttribute('data-filter', cat.id);
+          btn.textContent = cat.name;
+          filtersContainer.appendChild(btn);
+        });
+      }
 
       // Render the new items dynamically
       renderGrid();
+      
+      // Wire up filters for the new buttons
+      setupFilters();
 
       // Update status message
       if (galleryStatus) {
@@ -813,7 +466,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
   };
-
   // ==========================================================================
   // 5. Lightbox Carousel Functions
   // ==========================================================================
