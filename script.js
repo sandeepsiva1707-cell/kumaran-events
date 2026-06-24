@@ -176,7 +176,9 @@ document.addEventListener('DOMContentLoaded', () => {
    let galleryData = [];
    let galleryGridItems = [];
    let currentGalleryIndex = 0;
-
+   
+   const galleryStatus = document.getElementById('gallery-status');
+   
   function formatTitle(publicId, categoryName) {
     const filename = publicId.split('/').pop();
     let clean = filename
