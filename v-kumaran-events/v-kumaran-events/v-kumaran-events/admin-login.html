@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>V. Kumaran Decors & Events - Admin Login</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #070708;
+      --card-bg: rgba(20, 20, 25, 0.6);
+      --accent-gold: #d4af37;
+      --accent-gold-hover: #f3e5ab;
+      --text-white: #ffffff;
+      --text-muted: #a0a0ab;
+      --border-color: rgba(212, 175, 55, 0.2);
+      --error-color: #ef4444;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(at 10% 20%, rgba(212, 175, 55, 0.04) 0px, transparent 50%),
+        radial-gradient(at 90% 80%, rgba(212, 175, 55, 0.04) 0px, transparent 50%);
+      color: var(--text-white);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .glass-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      width: 100%;
+      max-width: 420px;
+      padding: 40px;
+      position: relative;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 35px;
+    }
+
+    .header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      color: var(--accent-gold);
+      margin-bottom: 8px;
+    }
+
+    .header p {
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    .form-group {
+      margin-bottom: 22px;
+    }
+
+    label {
+      display: block;
+      color: var(--text-white);
+      margin-bottom: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: var(--text-white);
+      font-size: 14px;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    input:focus {
+      border-color: var(--accent-gold);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 10px rgba(212, 175, 55, 0.1);
+    }
+
+    .btn-submit {
+      width: 100%;
+      background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%);
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      letter-spacing: 0.5px;
+      margin-top: 10px;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+      background: linear-gradient(135deg, #f3e5ab 0%, #d4af37 100%);
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .error-msg {
+      color: var(--error-color);
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 13px;
+      margin-bottom: 20px;
+      display: none;
+      text-align: center;
+    }
+
+    .back-lnk {
+      display: block;
+      text-align: center;
+      margin-top: 25px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.2s;
+    }
+
+    .back-lnk:hover {
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glass-card">
+    <div class="header">
+      <h2>Admin Login</h2>
+      <p>V. Kumaran Decors & Events Control Console</p>
+    </div>
+
+    <div id="error-box" class="error-msg"></div>
+
+    <form id="login-form">
+      <div class="form-group">
+        <label for="email">Admin Email</label>
+        <input type="email" id="email" placeholder="admin@kumarandecors.com" required autocomplete="username">
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password">
+      </div>
+
+      <button type="submit" class="btn-submit" id="submit-btn">Access Console</button>
+    </form>
+
+    <a href="index.html" class="back-lnk">← Return to Public Website</a>
+  </div>
+
+  <script>
+    // Redirect to dashboard if session token exists and is valid
+    const token = sessionStorage.getItem('admin_token');
+    if (token) {
+      // Fast check
+      fetch('/api/auth', {
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+      .then(res => {
+        if (res.ok) {
+          window.location.href = 'admin-dashboard.html';
+        } else {
+          sessionStorage.removeItem('admin_token');
+        }
+      });
+    }
+
+    const form = document.getElementById('login-form');
+    const submitBtn = document.getElementById('submit-btn');
+    const errorBox = document.getElementById('error-box');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      submitBtn.disabled = true;
+      errorBox.style.display = 'none';
+
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+
+      fetch('/api/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password })
+      })
+      .then(async res => {
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || 'Server error occurred during login.');
+        }
+        return data;
+      })
+      .then(data => {
+        // Save session credentials
+        sessionStorage.setItem('admin_token', data.token);
+        sessionStorage.setItem('admin_email', data.email);
+        window.location.href = 'admin-dashboard.html';
+      })
+      .catch(err => {
+        errorBox.textContent = err.message;
+        errorBox.style.display = 'block';
+        submitBtn.disabled = false;
+      });
+    });
+  </script>
+</body>
+</html>

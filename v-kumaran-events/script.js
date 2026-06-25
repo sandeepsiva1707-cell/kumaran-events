@@ -350,8 +350,11 @@ document.addEventListener('DOMContentLoaded', () => {
           categoryName = 'bouncer';
         }
         
-        const title = formatTitle(res.public_id, categoryName);
-        const desc = formatDescription(title, categoryName);
+        const customTitle = res.context && res.context.caption;
+        const customDesc = res.context && res.context.alt;
+        
+        const title = customTitle || formatTitle(res.public_id, categoryName);
+        const desc = customDesc || formatDescription(title, categoryName);
         
         // Apply Cloudinary automatic format/quality optimizations and width limits
         const imgUrl = `https://res.cloudinary.com/${cloudName}/image/upload/f_auto,q_auto,w_600/v${res.version}/${res.public_id}.${res.format}`;
