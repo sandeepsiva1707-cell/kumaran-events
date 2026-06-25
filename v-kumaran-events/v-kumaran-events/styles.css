@@ -2032,8 +2032,17 @@ textarea.form-input {
 
 @media (max-width: 768px) {
   /* Navigation */
+  .nav-container {
+    position: relative;
+    justify-content: center;
+  }
+
   .mobile-nav-toggle {
     display: flex;
+    position: absolute;
+    right: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
   }
   
   .nav-menu {
@@ -2090,7 +2099,17 @@ textarea.form-input {
     gap: 0;
   }
   .hero-logo-container {
-    display: none; /* Hide logo inside card to focus on text hierarchy */
+    display: block; /* Show logo inside card in mobile view */
+    order: 0;
+    margin-bottom: 1.5rem;
+  }
+  .hero-logo-img,
+  .hero-logo-svg {
+    max-width: 240px;
+    width: 80%;
+    height: auto;
+    aspect-ratio: 3/2;
+    object-fit: cover;
   }
   .hero-title {
     display: none; /* Hide the large brand title in card, since header already has it */
@@ -2355,8 +2374,10 @@ textarea.form-input {
   .hero-content-inner {
     padding: 2rem 2.5rem;
   }
-  .hero-logo-svg {
-    width: 100px;
+  .hero-logo-svg,
+  .hero-logo-img {
+    width: 120px;
+    height: auto;
   }
   .hero-title {
     font-size: 2.4rem;
