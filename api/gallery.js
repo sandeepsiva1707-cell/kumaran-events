@@ -45,7 +45,7 @@ module.exports = async (req, res) => {
         height: asset.height,
         type: asset.type,
         created_at: asset.created_at,
-        folder: asset.folder || ''
+        folder: asset.asset_folder || asset.folder || ''
       }))
     });
   } catch (error) {
